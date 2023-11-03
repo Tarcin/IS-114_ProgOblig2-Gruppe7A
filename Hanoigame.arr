@@ -39,6 +39,9 @@ fun hanoi-state():
   step-1 = put-image(l-rod, 100, 60, box)
   step-2 = put-image(m-rod, 200, 60, step-1)
   step-3 = put-image(r-rod, 300, 60, step-2)
-  step-3
+  l-rod := rod
+  m-rod := rod
+  r-rod := rod
+    step-3
   end
 end
