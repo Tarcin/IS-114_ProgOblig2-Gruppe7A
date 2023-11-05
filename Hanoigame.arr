@@ -54,24 +54,22 @@ end
 
 #|Function that regrets the last move. Accomplished by updating the hanoi list to reflect the old state, 
   and removing the last row of the move-history|#
-fun regret():
-    if move-history.length() < 1:
+fun regret(): 
+  if move-history.length() < 1:
       "no more moves to regret..."
     else:
     block:
       last-move = move-history.row-n(move-history.length() - 1)
       hanoi := hanoi.set(find-first(last-move["to-rod"], 0), last-move["from-rod"])
-      temp = move-history.all-rows()
+      temp = remove(move-history.all-rows(), last-move)
       move-history := move-history.empty()
       for each(elem from temp):
-        if elem == last-move:
-          0
-        else:
           move-history := move-history.add-row(elem)
-        end
       end
+      print("Move history after regret:")
+      move-history
     end
-    end
+  end
 end
 
 #|Function used to simply find the index of the first entry in the hanoi array that 
