@@ -75,10 +75,8 @@ end
 #|Function used to simply find the index of the first entry in the hanoi array that 
   matches the given identifier for the rods 1-3|#
 fun find-first(pos :: Number, index :: Number):
-  if hanoi.get(index) == pos:
+  if (index > 3) or (hanoi.get(index) == pos):
     index
-  else if index >= 3:
-    4
   else:
     find-first(pos, index + 1)
   end
