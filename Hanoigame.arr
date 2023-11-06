@@ -35,13 +35,13 @@ fun move(location :: Number, destination :: Number):
   if (num-max(location, destination) > 3) or (num-min(location, destination) < 1):
     raise("Not a valid rod location, use 1-3")
   else:
-    first-rod1 = find-first(location, 0)
-    first-rod2 = find-first(destination, 0)
+    first-loc = find-first(location, 0)
+    first-dest = find-first(destination, 0)
     ask:
-      |first-rod1 == 4 then: raise("No circle to move from location")
-      |first-rod1 < first-rod2 then:
+      |first-loc == 4 then: raise("No circle to move from location")
+      |first-loc < first-dest then:
         block:
-          hanoi.set-now(first-rod1, destination)
+          hanoi.set-now(first-loc, destination)
           move-history := move-history.add-row(move-history.row(move-history.length() + 1, location, destination))
           hanoi-state()
         end
