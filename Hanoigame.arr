@@ -84,22 +84,13 @@ end
 
 #Function that recursively goes through the hanoi array to generate the rod images
 fun build-rods(index :: Number):
-  temp = hanoi.get(index)
-  block:  
-    if temp == 1:
-      l-rod := overlay(l-rod, circle-list.get(index))
-    else if temp == 2:
-      m-rod := overlay(m-rod, circle-list.get(index))
-    else: 
-      r-rod := overlay(r-rod, circle-list.get(index))
+for each(i from range(0, 4)):
+  ask:
+    |hanoi.get(i) == 1 then: l-rod := overlay(l-rod, circle-list.get(i))
+    |hanoi.get(i) == 2 then: m-rod := overlay(m-rod, circle-list.get(i))
+    |otherwise: r-rod := overlay(r-rod, circle-list.get(i))
     end
-  if index < 3: 
-    build-rods(index + 1)
-  else:
-    #this block doesn't make much sense, consider revamping the function
-    "returning..."
-  end
-  end
+end
 end
 
 #|Function that calls build-rods(), then assembles and prints the picture of the 
