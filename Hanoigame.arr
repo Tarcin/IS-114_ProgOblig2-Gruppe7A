@@ -12,7 +12,7 @@ box = put-image(text("1",14,"slate-grey"), 100, 10,
 var move-history = table: move :: Number, from-rod :: Number, to-rod :: Number
 end
   
-var hanoi = [list: 1, 1, 1, 1]
+hanoi = array-of(1, 4)
 circle-list = [list: red-c, green-c, blue-c, orange-c]
 
 #|Function that simply starts a new game by resetting the hanoi list and the move-history table, 
@@ -20,7 +20,9 @@ circle-list = [list: red-c, green-c, blue-c, orange-c]
 fun new-game(): 
   block:
     temp = move-history
-    hanoi := [list: 1, 1, 1, 1]
+    for each(i from range(0, 4)):
+      hanoi.set-now(i, 1)
+    end
     move-history := move-history.empty()
     print("Moves from last game:")
     temp
@@ -39,7 +41,7 @@ fun move(location :: Number, destination :: Number):
       "No circle to move from location"
     else if first-rod1 < first-rod2:
       block:
-        hanoi := hanoi.set(first-rod1, destination)
+        hanoi.set-now(first-rod1, destination)
         move-history := move-history.add-row(move-history.row(move-history.length() + 1, location, destination))
         hanoi-state()
       end
@@ -57,7 +59,7 @@ fun regret():
     else:
     block:
       last-move = move-history.row-n(move-history.length() - 1)
-      hanoi := hanoi.set(find-first(last-move["to-rod"], 0), last-move["from-rod"])
+      hanoi.set-now(find-first(last-move["to-rod"], 0), last-move["from-rod"])
       temp = remove(move-history.all-rows(), last-move)
       move-history := move-history.empty()
       for each(elem from temp):
@@ -72,7 +74,7 @@ end
 #|Function used to simply find the index of the first entry in the hanoi array that 
   matches the given identifier for the rods 1-3|#
 fun find-first(pos :: Number, index :: Number):
-  if (index > 3) or (hanoi.get(index) == pos):
+  if (index > 3) or (hanoi.get-now(index) == pos):
     index
   else:
     find-first(pos, index + 1)
@@ -83,8 +85,8 @@ end
 fun build-rod(index :: Number, pos :: Number):
   ask:
     |index > 3 then: empty-image
-    |hanoi.get-now(index) == pos then: overlay(circle-list.get(index), build-rods(index + 1, pos))
-    |otherwise: build-rods(index + 1, pos)
+    |hanoi.get-now(index) == pos then: overlay(circle-list.get(index), build-rod(index + 1, pos))
+    |otherwise: build-rod(index + 1, pos)
   end
 end
 
