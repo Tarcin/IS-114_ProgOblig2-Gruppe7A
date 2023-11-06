@@ -51,20 +51,17 @@ fun move(location :: Number, destination :: Number):
   end
 end
 
-#|Function that regrets the last move. Accomplished by updating the hanoi list to reflect the old state, 
-  and removing the last row of the move-history|#
+#|Function that lets the user regret the last move, by setting the hanoi array to the previous state and
+  removing the last entry of the move-history|#
 fun regret(): 
   if move-history.length() < 1:
-      "no more moves to regret..."
+    raise("no more moves to regret...")
     else:
     block:
-      last-move = move-history.row-n(move-history.length() - 1)
+      move-count = move-history.length()
+      last-move = move-history.row-n(move-count - 1)
       hanoi.set-now(find-first(last-move["to-rod"], 0), last-move["from-rod"])
-      temp = remove(move-history.all-rows(), last-move)
-      move-history := move-history.empty()
-      for each(elem from temp):
-          move-history := move-history.add-row(elem)
-      end
+      move-history := move-history.filter-by("move", lam(r): r < move-count end)
       print("Move history after regret:")
       move-history
     end
