@@ -33,20 +33,19 @@ end
   destination rod, as long as it's a legal move or there actually is a circle to be moved|#
 fun move(location :: Number, destination :: Number):
   if (num-max(location, destination) > 3) or (num-min(location, destination) < 1):
-    "Not a valid rod location, use 1-3"
+    raise("Not a valid rod location, use 1-3")
   else:
     first-rod1 = find-first(location, 0)
     first-rod2 = find-first(destination, 0)
-    if first-rod1 == 4:
-      "No circle to move from location"
-    else if first-rod1 < first-rod2:
-      block:
-        hanoi.set-now(first-rod1, destination)
-        move-history := move-history.add-row(move-history.row(move-history.length() + 1, location, destination))
-        hanoi-state()
-      end
-    else:
-      "Illegal move"
+    ask:
+      |first-rod1 == 4 then: raise("No circle to move from location")
+      |first-rod1 < first-rod2 then:
+        block:
+          hanoi.set-now(first-rod1, destination)
+          move-history := move-history.add-row(move-history.row(move-history.length() + 1, location, destination))
+          hanoi-state()
+        end
+      |otherwise: raise("Illegal move")
     end
   end
 end
