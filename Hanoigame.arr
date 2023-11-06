@@ -9,9 +9,6 @@ box = put-image(text("1",14,"slate-grey"), 100, 10,
   put-image(text("2",14,"slate-grey"), 200, 10,
     put-image(text("3",14,"slate-grey"), 300, 10, empty-scene(400, 150))))
 
-var l-rod = rod
-var m-rod = rod
-var r-rod = rod
 var move-history = table: move :: Number, from-rod :: Number, to-rod :: Number
 end
   
@@ -83,27 +80,21 @@ fun find-first(pos :: Number, index :: Number):
 end
 
 #Function that recursively goes through the hanoi array to generate the rod images
-fun build-rods(index :: Number):
-for each(i from range(0, 4)):
+fun build-rod(index :: Number, pos :: Number):
   ask:
-    |hanoi.get(i) == 1 then: l-rod := overlay(l-rod, circle-list.get(i))
-    |hanoi.get(i) == 2 then: m-rod := overlay(m-rod, circle-list.get(i))
-    |otherwise: r-rod := overlay(r-rod, circle-list.get(i))
-    end
-end
+    |index > 3 then: empty-image
+    |hanoi.get-now(index) == pos then: overlay(circle-list.get(index), build-rods(index + 1, pos))
+    |otherwise: build-rods(index + 1, pos)
+  end
 end
 
-#|Function that calls build-rods(), then assembles and prints the picture of the 
+#|Function that calls build-rod(), then assembles and prints the picture of the 
   current position in the hanoi game, and resets the variables for each rod|#
 fun hanoi-state():
   block:
-    build-rods(0)
-    step-1 = put-image(l-rod, 100, 75, box)
-    step-2 = put-image(m-rod, 200, 75, step-1)
-    step-3 = put-image(r-rod, 300, 75, step-2)
-    l-rod := rod
-    m-rod := rod
-    r-rod := rod
+    step-1 = put-image(overlay(rod, build-rod(0, 1)), 100, 75, box)
+    step-2 = put-image(overlay(rod, build-rod(0, 2)), 200, 75, step-1)
+    step-3 = put-image(overlay(rod, build-rod(0, 3)), 300, 75, step-2)
     step-3
   end
 end
