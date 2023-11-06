@@ -15,9 +15,9 @@ end
 hanoi = array-of(1, 4)
 circle-list = [list: red-c, green-c, blue-c, orange-c]
 
-#|Function that simply starts a new game by resetting the hanoi list and the move-history table, 
-  and returns the move-history from the previous session|#
 fun new-game(): 
+doc: ```Function that simply starts a new game by resetting the hanoi list and the move-history table, 
+        and returns the move-history from the previous session```
   block:
     temp = move-history
     for each(i from range(0, 4)):
@@ -29,9 +29,9 @@ fun new-game():
   end
 end
 
-#|function that takes 1-3 as valid inputs for the rods numbered 1, 2, 3 and moves the top circle from the location rod to the
-  destination rod, as long as it's a legal move or there actually is a circle to be moved|#
 fun move(location :: Number, destination :: Number):
+doc: ```function that takes 1-3 as valid inputs for the rods numbered 1, 2, 3 and moves the top circle from the location rod to the
+        destination rod, as long as it's a legal move or there actually is a circle to be moved```
   if (num-max(location, destination) > 3) or (num-min(location, destination) < 1):
     raise("Not a valid rod location, use 1-3")
   else:
@@ -50,9 +50,9 @@ fun move(location :: Number, destination :: Number):
   end
 end
 
-#|Function that lets the user regret the last move, by setting the hanoi array to the previous state and
-  removing the last entry of the move-history|#
 fun regret(): 
+doc: ```Function that lets the user regret the last move by setting the hanoi array to the previous state and
+        removing the last entry of the move-history```
   if move-history.length() < 1:
     raise("no more moves to regret...")
     else:
@@ -67,9 +67,9 @@ fun regret():
   end
 end
 
-#|Function used to simply find the index of the first entry in the hanoi array that 
-  matches the given identifier for the rods 1-3|#
 fun find-first(pos :: Number, index :: Number):
+doc: ```Function used to simply find the index of the first entry in the hanoi array that 
+        matches the given identifier for the rods 1-3```
   if (index > 3) or (hanoi.get-now(index) == pos):
     index
   else:
@@ -77,8 +77,8 @@ fun find-first(pos :: Number, index :: Number):
   end
 end
 
-#Function that recursively goes through the hanoi array to generate the rod images
 fun build-rod(index :: Number, pos :: Number):
+doc: "Function that recursively goes through the hanoi array to generate the rod images"
   ask:
     |index > 3 then: empty-image
     |hanoi.get-now(index) == pos then: overlay(circle-list.get(index), build-rod(index + 1, pos))
@@ -86,9 +86,9 @@ fun build-rod(index :: Number, pos :: Number):
   end
 end
 
-#|Function that calls build-rod(), then assembles and prints the picture of the 
-  current position in the hanoi game, and resets the variables for each rod|#
 fun hanoi-state():
+doc: ```Function that calls build-rod(), then assembles and prints the picture of the 
+        current position in the hanoi game, and resets the variables for each rod```
   block:
     step-1 = put-image(overlay(rod, build-rod(0, 1)), 100, 75, box)
     step-2 = put-image(overlay(rod, build-rod(0, 2)), 200, 75, step-1)
@@ -97,8 +97,8 @@ fun hanoi-state():
   end
 end
 
-#Generates an image for the Hanoi Game Menu
 fun hanoi-menu():
+doc: "Generates an image for the Hanoi Game Menu"
   above(text("Hanoi Game Menu", 24, "black"),
     above(text("new-game() will start the game with a fresh board", 16, "black"),
       above(text("move(location, destination) moves a plate from one rod to another. Rods are numbered 1-3 left to right", 16, "black"),
